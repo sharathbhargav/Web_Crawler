@@ -1,10 +1,12 @@
 from UtilityFunctions import PreprocessHelpers
 from bs4 import BeautifulSoup
+from urllib.parse import urljoin
 class Web_page:
     def __init__(self,url,html_data):
         self.url =url
         self.data=html_data
         self.out_going_urls=[]
+        self.incoming_urls = []
     
     def run_preprocess(self):
         preprocessor = PreprocessHelpers.Preprocessor()
@@ -18,8 +20,11 @@ class Web_page:
             path = str(link.get('href'))
             if path and path.startswith("/"):
                 path = urljoin(self.url,path)
-                self.out_going_urls.append(path)
-                yield path
+            self.out_going_urls.append(path)
+            yield path
 
     def get_out_going_urls(self):
         return self.out_going_urls
+
+    def get_in_urls(self):
+        return self.incoming_urls

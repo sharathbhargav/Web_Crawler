@@ -94,8 +94,8 @@ class TF_IDF:
                         s = s + tf*idf*idf  # Dot product
 
             cos = s/doc_len  # normalize dot product
-
             doc_scores[doc] = cos
+            
         doc_scores = dict(
             sorted(doc_scores.items(), key=lambda item: item[1], reverse=True))
         return doc_scores

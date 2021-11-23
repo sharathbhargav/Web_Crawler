@@ -1,14 +1,15 @@
-from gensim import models
-from gensim.models import Word2Vec, KeyedVectors
+from gensim.models import  KeyedVectors
 import numpy as np
 import Tf_Idf
 from scipy import spatial
 from UtilityFunctions import PreprocessHelpers
-class Word2Vec:
+from UtilityFunctions import CommonHelpers
+
+class Word_2_Vec:
     def __init__(self):
         self.google_corpus_path = "models/GoogleNews-vectors-negative300.bin"
         self.num_features=300
-        self.tf_idf = Tf_Idf()
+        self.tf_idf = Tf_Idf.TF_IDF()
         self.tf_idf.init_data_from_pickle()
         self.weighted_avg=True
 
@@ -49,11 +50,15 @@ class Word2Vec:
         """
         counter = 0
         self.feature_vectors = {}  # pre-initialize (for speed)
-        
         for doc in self.doc_list:
             self.feature_vectors[doc] = self.make_feature_vector(self.doc_list[doc],doc)
             counter = counter + 1
+        CommonHelpers.dump_pickle("data/word2vec/feature_vectors.pickle",self.feature_vectors)
         return self.feature_vectors
+
+    def init_data_from_pickle(self):
+        self.feature_vectors=CommonHelpers.load_pickle("data/word2vec/feature_vectors.pickle")
+        self.set_model()
 
     def get_query_vectors(self,query_words):
         return self.make_feature_vector(query_words,None,True)
@@ -62,7 +67,7 @@ class Word2Vec:
     def cosine_similarity(self,doc1,doc2):
         return spatial.distance.cosine(doc1,doc2)
 
-    def get_top_n_documents(self,n,query):
+    def get_top_n_documents(self,query):
         similar_docs={}
         preprocessor = PreprocessHelpers.Preprocessor()
         preprocessor.set_text(query)
@@ -71,6 +76,10 @@ class Word2Vec:
         for each in self.feature_vectors:
             similar_docs[each] = self.cosine_similarity(self.feature_vectors[each],query_vec)
 
+        result = {k: v for k, v in sorted(similar_docs.items(), key=lambda item: item[1],reverse=True)}
+        return result
+
+    
         
 
 
