@@ -1,13 +1,13 @@
 from gensim.models import  KeyedVectors
 import numpy as np
-import Tf_Idf
+from . import Tf_Idf
 from scipy import spatial
-from UtilityFunctions import PreprocessHelpers
-from UtilityFunctions import CommonHelpers
-
+from SE.UtilityFunctions import PreprocessHelpers
+from SE.UtilityFunctions import CommonHelpers
+import os,pathlib
 class Word_2_Vec:
     def __init__(self):
-        self.google_corpus_path = "models/GoogleNews-vectors-negative300.bin"
+        self.google_corpus_path =os.path.join(pathlib.Path(__file__).parent.resolve(), "models/GoogleNews-vectors-negative300.bin")
         self.num_features=300
         self.tf_idf = Tf_Idf.TF_IDF()
         self.tf_idf.init_data_from_pickle()
@@ -53,11 +53,11 @@ class Word_2_Vec:
         for doc in self.doc_list:
             self.feature_vectors[doc] = self.make_feature_vector(self.doc_list[doc],doc)
             counter = counter + 1
-        CommonHelpers.dump_pickle("data/word2vec/feature_vectors.pickle",self.feature_vectors)
+        CommonHelpers.dump_pickle(os.path.join(pathlib.Path(__file__).parent.resolve(),"data/word2vec/feature_vectors.pickle"),self.feature_vectors)
         return self.feature_vectors
 
     def init_data_from_pickle(self):
-        self.feature_vectors=CommonHelpers.load_pickle("data/word2vec/feature_vectors.pickle")
+        self.feature_vectors=CommonHelpers.load_pickle(os.path.join(pathlib.Path(__file__).parent.resolve(),"data/word2vec/feature_vectors.pickle"))
         self.set_model()
 
     def get_query_vectors(self,query_words):

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+
+</head>
+
+<body >
+  <h1 style="text-align: center;"> UIC Search Engine!</h1>
+<form method="POST" action="" style="text-align: center;">
+      <input type="text" name="name">
+    <select id="choice" name="choice">
+    <option value="TF-IDF"  >TF-IDF</option>
+    <option value="Word2Vec">Word2Vec</option>
+    <option value="PageRank" selected>PageRank+tfidf</option>
+  </select>
+      <input type="submit" name="query" value="Submit">
+    </form>
+
+<script>
+  
+  function toggle_visibility(id) {
+      //  var e = document.getElementById(id);
+      //  if(e.style.display == 'block')
+          // e.style.display = 'none';
+      //  else
+          // e.style.display = 'block';
+          var hiddenP = document.getElementsByClassName('text12');
+          console.log("hidden p len = ",hiddenP.length)
+          result=""
+   for (var i=0, len=hiddenP.length|0; i<len; i=i+1) {
+    result += "\n  " + hiddenP[i].textContent;
+    hiddenP[i].style.display="block"
+   }
+   console.log(result)
+   
+}
+
+</script>
+{% if name %}
+
+    
+
+    {%  for data in list_data[:10] %}
+       <p> <a class="text123" href="{{ data }}">{{ data }}</a></p>
+    {%  endfor %}
+    {%  for data in list_data[10:20] %}
+       <p class="text12" style="display: none;"> <a  href="{{ data }}" >{{ data }}</a></p>
+    {%  endfor %}
+    {% endif %}
+        </br>
+      </br>
+    
+    <button onclick="toggle_visibility(1)">Load more</button>
+</body>
+</html>

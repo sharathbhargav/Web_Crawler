@@ -1,4 +1,4 @@
-from UtilityFunctions import PreprocessHelpers
+from SE.UtilityFunctions import CommonHelpers,PreprocessHelpers
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 class Web_page:
@@ -9,10 +9,13 @@ class Web_page:
         self.incoming_urls = []
     
     def run_preprocess(self):
-        preprocessor = PreprocessHelpers.Preprocessor()
-        self.cleaned_data = BeautifulSoup(self.data).get_text()
-        preprocessor.set_text(self.cleaned_data)
-        self.words = preprocessor.run_lemma_pipeline()
+        try:
+            preprocessor = PreprocessHelpers.Preprocessor()
+            self.cleaned_data = BeautifulSoup(self.data).get_text()
+            preprocessor.set_text(self.cleaned_data)
+            self.words = preprocessor.run_lemma_pipeline()
+        except:
+            print("Failed to parse ",self.url)
     
     def get_URLs_from_page(self):
         soup = BeautifulSoup(self.data, 'html.parser')
@@ -20,6 +23,7 @@ class Web_page:
             path = str(link.get('href'))
             if path and path.startswith("/"):
                 path = urljoin(self.url,path)
+            path = CommonHelpers.clean_url(path)
             self.out_going_urls.append(path)
             yield path
 

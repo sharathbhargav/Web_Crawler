@@ -1,0 +1,64 @@
+"nlp" precision = 10/10
+TF-IDF + page rank
+http://cs.uic.edu/graduate/phd-alumni-list --Relevant
+http://catalog.uic.edu/gcat/course-descriptions/cs --Relevant
+http://engineering.uic.edu/about/faculty/distinguished --Relevant
+http://nlp.lab.uic.edu --Relevant
+http://nlp.lab.uic.edu/nlp-research --Relevant
+http://nlp.lab.uic.edu/nlp-research/nl-for-educational-technology --Relevant
+http://nlp.lab.uic.edu/nlp-research/summarization-for-entertainment-and-for-health-care --Relevant
+http://nlp.lab.uic.edu/people --Relevant
+http://nlp.lab.uic.edu/resources --Relevant
+http://nlp.lab.uic.edu/publications --Relevant
+
+
+"undergraduate" 6/10
+http://admissions.uic.edu/apply-now --Relevant
+http://admissions.uic.edu/contact-admissions --Relevant
+http://www.uic.edu 
+http://uic.edu
+http://catalog.uic.edu
+http://catalog.uic.edu/ucat --Relevant
+https://www.uic.edu/ 
+http://catalog.uic.edu/ucat/academic-calendar --Relevant
+http://engineering.uic.edu --Relevant
+http://admissions.uic.edu --Relevant
+
+
+"cta"  precision = 7/10
+
+http://disabilityresources.uic.edu
+http://maps.uic.edu  --Relevant
+http://today.uic.edu/resources/current-student-resources  --Relevant
+http://maps.uic.edu/Home/UICMapsTextOnly  --Relevant
+http://cs.uic.edu/graduate/admitted-students  --Relevant
+http://maps.uic.edu/?utm_source=eyebrow --Relevant
+http://today.uic.edu/resources/current-student-resources/?utm_source=eyebrow  --Relevant
+http://maps.uic.edu/?utm_source=footer --Relevant 
+http://www.ois.uic.edu/cms/One.aspx?portalId=1581&pageId=189688
+http://www.ois.uic.edu/cms/One.aspx?portalId=1581&pageId=189765
+
+"computer science"  precision = 10/10
+http://cs.uic.edu/profiles/ian-kash --Relevant 
+http://cs.uic.edu/profiles/diaz-diana --Relevant
+http://cs.uic.edu/undergraduate --Relevant
+http://cs.uic.edu/undergraduate/majors --Relevant
+http://cs.uic.edu/profiles/nasim-mobasheri --Relevant
+http://cs.uic.edu/news-stories/new-building-for-computer-science-department-coming-to-east-campus --Relevant
+http://cs.uic.edu/cs-events/calendar --Relevant
+http://cs.uic.edu/profiles/gonzalo-bello --Relevant
+http://ece.uic.edu/profiles/zhao-zhang-phd --Relevant
+http://cs.uic.edu/profiles/tang-wei --Relevant
+
+"covid"  precision 9/10
+
+http://today.uic.edu/coronavirus?utm_source=homepage&utm_medium=website&utm_campaign=covid-19 --Relevant
+http://today.uic.edu/coronavirus --Relevant
+http://oae.uic.edu/covid-19 --Relevant
+http://sa.uic.edu/fall-reopening --Relevant
+http://covid-dashboard.uic.edu/view --Relevant
+http://today.uic.edu/covid-19-precautions-during-the-holidays --Relevant
+http://publichealth.uic.edu/uic-covid-19-public-health-response --Relevant
+http://grad.uic.edu/profiles/kollenbroich-jim
+http://today.uic.edu/covid-19-vaccination-guidelines --Relevant
+http://cs.uic.edu/news-stories/how-do-values-influence-stay-at-home-attitudes-during-the-covid-19-health-crisis --Relevant

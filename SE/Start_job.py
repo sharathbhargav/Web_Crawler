@@ -1,14 +1,17 @@
 
 from itertools import chain
-import Wor2Vec
+from SE import Wor2Vec
 from nltk.util import pr
-import basic_crawler
-from UtilityFunctions import CommonHelpers
-from UtilityFunctions import PreprocessHelpers
-import Tf_Idf
-from pr import Generate_web_graph,Pagerank
+from SE import basic_crawler, Web_page
+from SE.UtilityFunctions import CommonHelpers
+from SE.UtilityFunctions import PreprocessHelpers
+from SE import Tf_Idf
+from SE.pr import Generate_web_graph,Pagerank
 import time
+import pathlib,os
 url ="https://cs.uic.edu/"
+import sys
+sys.setrecursionlimit(10000)
 class Start:
     def __init__(self,URL):
         self.url = URL
@@ -45,7 +48,7 @@ class Start:
     def run_word2vec(self,cache=False):
         self.word2vec = Wor2Vec.Word_2_Vec()
         if cache==False:
-            self.word2vec.set_weighted_avg(True)
+            self.word2vec.set_weighted_avg(False)
             self.word2vec.set_model()
             self.word2vec.set_data(self.doc_list)
             self.word2vec.get_avg_feature_vectors()
@@ -58,59 +61,56 @@ class Start:
 
     def page_rank(self,cache=False):
         self.pr = Pagerank.Page_rank(20,0.15)
-        if cache==False:
-            self.pr.generate_graph("data/web_pages.pickle","data/web_graph.pickle")
-            self.pr.run()
-
-        else:
-            self.pr.load_from_pickle()
-
+        self.pr.run(os.path.join("SE","data/web_pages.pickle"),
+                                   os.path.join("SE","data/web_graph.pickle"),
+                                   cache)
+                
     
     def start_all(self,pages=30,cache=False):
         start_time = time.time()
-        self.start_crawl(pages,cache)
+        self.start_crawl(pages,True)
         print("Crawl complete")
-        self.page_rank(cache)
+        print("Crawling %s pages took %s seconds"%(len(self.doc_list),time.time()-start_time))
+        self.page_rank(True)
         print("Page rank complete")
-        self.run_tf_idf(cache)
+        self.run_tf_idf(True)
         print("Tf idf complete")
         self.run_word2vec(cache)
         print("Word2vec complete")   
         end_time = time.time()
         print("Starting all with cache = %s took %s seconds"%(cache,end_time-start_time)) 
 
+    def called_from_flask(self):
+        start_time = time.time()
+        self.page_rank(True)
+        print("Page rank complete")
+        self.run_tf_idf(True)
+        print("Tf idf complete")
+        self.run_word2vec(True)
+        print("Word2vec complete")   
+        end_time = time.time()
+        print("Loading all took %s seconds"%(end_time-start_time)) 
+
     def query(self,query,type):
         if type==0:
             results = self.query_string_tf_idf(query)
-            # return list(results.keys())[:10]
-            i=0
-            for each in results:
-                i+=1
-                if i>11:
-                    break
-                print(each,results[each])
+            return results
+
         elif type==1:
             results1 = self.query_string_word2vec(query)
-            # return list(results1.keys())[:10]
-            i=0
-            for each in results1:
-                i+=1
-                if i>11:
-                    break
-                print(each,results1[each])
+            return results1
+
         elif type==2:
-            results2 = self.query_string_word2vec(query)
+            results2 = self.query_string_tf_idf(query)
             search = {}
             for each in results2:
-                search[each] = results2[each] * self.pr.page_rank[each]
+                try:
+                    search[each] = (results2[each] * self.pr.page_rank[each])/ (results2[each] + self.pr.page_rank[each])
+                except:
+                    print(f"Page rank failed for {each}")
             search = {k: v for k, v in sorted(search.items(), key=lambda item: item[1],reverse=True)}
-            # return list(search.keys())[:10]
-            i=0
-            for each in search:
-                i+=1
-                if i>11:
-                    break
-                print(each,search[each])
+            return search
+
 
     def menu_driven(self):
         while True:
@@ -130,13 +130,14 @@ class Start:
                 type=2
             else:
                 query_start = time.time()
-                res = start.query(choice,type)
+                res = self.query(choice,type)
                 query_end = time.time()
-                print(res)
                 print("Results took %s"%(query_end-query_start))
         print("E.N.D")
 
-start = Start(url)
-
-start.start_all(pages=100,cache=True)
-start.menu_driven()
+# start = Start(url)
+# s1= time.time()
+# start.start_all(pages=3500,cache=False)
+# s2=time.time()
+# print("Crawling took %s seconds"%(s2-s1))
+# start.menu_driven()

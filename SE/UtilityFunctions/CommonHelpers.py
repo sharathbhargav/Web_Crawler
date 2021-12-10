@@ -1,7 +1,7 @@
 import pickle
 import bz2
 import _pickle as cPickle
-
+from SE.Web_page import Web_page
 def print_dict(dic):
     for key in dic:
         print(str(key)+"=>"+str(dic[key]))
@@ -24,4 +24,6 @@ def load_pickle(file):
 def clean_url(url):
     if url.endswith('/'):
         url = url[:-1]
+    if url.startswith("https"):
+        url="http"+url[5:]
     return url

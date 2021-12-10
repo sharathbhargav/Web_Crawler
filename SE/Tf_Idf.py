@@ -1,6 +1,8 @@
-from UtilityFunctions import CommonHelpers
 import math
 
+from SE.UtilityFunctions import CommonHelpers
+
+import os,pathlib
 class TF_IDF:
     def __init__(self):
         pass
@@ -43,8 +45,8 @@ class TF_IDF:
 
         # Once the entire inverted index is generated calculate inverted document frequency for each of the terms
         self.calcIDF(len(cleaned_words_dict))
-        CommonHelpers.dump_pickle("data/individual_index.pickle", self.inverted_index)
-        CommonHelpers.dump_pickle("data/doc_idf.pickle", self.doc_idf)
+        CommonHelpers.dump_pickle(os.path.join(pathlib.Path(__file__).parent.resolve(),"data/individual_index.pickle"), self.inverted_index)
+        CommonHelpers.dump_pickle(os.path.join(pathlib.Path(__file__).parent.resolve(),"data/doc_idf.pickle"), self.doc_idf)
 
 
     def calculate_doc_length(self):
@@ -62,12 +64,12 @@ class TF_IDF:
                 sq_sum = sq_sum + (tf*idf)**2
             self.doc_length[key] = math.sqrt(sq_sum)
 
-        CommonHelpers.dump_pickle("data/doc_length.pickle", self.doc_length)
+        CommonHelpers.dump_pickle(os.path.join(pathlib.Path(__file__).parent.resolve(),"data/doc_length.pickle"), self.doc_length)
 
     def init_data_from_pickle(self):
-        self.inverted_index = CommonHelpers.load_pickle("data/individual_index.pickle")
-        self.doc_idf = CommonHelpers.load_pickle("data/doc_idf.pickle")
-        self.doc_length = CommonHelpers.load_pickle("data/doc_length.pickle")
+        self.inverted_index = CommonHelpers.load_pickle(os.path.join(pathlib.Path(__file__).parent.resolve(),"data/individual_index.pickle"))
+        self.doc_idf = CommonHelpers.load_pickle(os.path.join(pathlib.Path(__file__).parent.resolve(),"data/doc_idf.pickle"))
+        self.doc_length = CommonHelpers.load_pickle(os.path.join(pathlib.Path(__file__).parent.resolve(),"data/doc_length.pickle"))
 
     def query_similarity(self, query):
         """
