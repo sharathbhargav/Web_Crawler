@@ -68,12 +68,12 @@ class Start:
     
     def start_all(self,pages=30,cache=False):
         start_time = time.time()
-        self.start_crawl(pages,True)
+        self.start_crawl(pages,cache)
         print("Crawl complete")
         print("Crawling %s pages took %s seconds"%(len(self.doc_list),time.time()-start_time))
-        self.page_rank(True)
+        self.page_rank(cache)
         print("Page rank complete")
-        self.run_tf_idf(True)
+        self.run_tf_idf(cache)
         print("Tf idf complete")
         self.run_word2vec(cache)
         print("Word2vec complete")   
